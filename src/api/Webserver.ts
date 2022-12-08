@@ -40,7 +40,9 @@ export default class Webserver {
         // We register the default route last to make sure we don't override anything by accident.
         // We'll pass off all other requests to the web app
         this.app.get(/(widgets\/|riot\/|element\/|\/)*/, (_req, res) => {
-            res.sendFile(path.join(__dirname, "..", "..", "web", "index.html"));
+            if (!res.headersSent) {
+                res.sendFile(path.join(__dirname, "..", "..", "web", "index.html"));
+            }
         });
 
         // Set up the error handler
